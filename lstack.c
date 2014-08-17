@@ -22,6 +22,7 @@ void *lstack_pop(lstack_t *lstack)
             return NULL;
         node = head;
     } while (atomic_compare_exchange_weak(&lstack->head, &head, head->next));
+    atomic_fetch_sub(&lstack->size, 1);
     void *value = node->value;
     free(node);
     return value;
