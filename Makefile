@@ -1,5 +1,4 @@
 CC      = /usr/lib/gcc-snapshot/bin/gcc
-#CC     = gcc
 CFLAGS  = -std=c11 -Wall -O3 -I/usr/include
 LDFLAGS = -pthread
 

@@ -61,9 +61,9 @@ int main()
     lstack_t results;
     lstack_init(&results);
     struct job job = {
-        results: &results,
-        min_results: 4096,
-        nzeros: 2
+        .results = &results,
+        .min_results = 4096,
+        .nzeros = 2
     };
 
     /* Spawn threads. */
