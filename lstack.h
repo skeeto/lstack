@@ -16,7 +16,7 @@ struct lstack_head {
 };
 
 typedef struct {
-    struct lstack_node *node_list;
+    struct lstack_node *node_buffer;
     _Atomic struct lstack_head head, free;
     _Atomic size_t size;
 } lstack_t;
@@ -28,10 +28,10 @@ inline size_t lstack_size(lstack_t *lstack)
 
 inline void lstack_free(lstack_t *lstack)
 {
-    free(lstack->node_list);
+    free(lstack->node_buffer);
 }
 
-int   lstack_init(lstack_t *lstack, size_t size);
+int   lstack_init(lstack_t *lstack, size_t max_size);
 int   lstack_push(lstack_t *lstack, void *value);
 void *lstack_pop(lstack_t *lstack);
 

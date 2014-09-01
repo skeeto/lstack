@@ -2,21 +2,21 @@
 #include <errno.h>
 #include "lstack.h"
 
-int lstack_init(lstack_t *lstack, size_t size)
+int lstack_init(lstack_t *lstack, size_t max_size)
 {
     lstack->head.aba = ATOMIC_VAR_INIT(0);
     lstack->head.node = ATOMIC_VAR_INIT(NULL);
     lstack->size = ATOMIC_VAR_INIT(0);
 
     /* Pre-allocate all nodes. */
-    lstack->node_list = malloc(size * sizeof(struct lstack_node));
-    if (lstack->node_list == NULL)
+    lstack->node_buffer = malloc(max_size * sizeof(struct lstack_node));
+    if (lstack->node_buffer == NULL)
         return ENOMEM;
-    for (size_t i = 0; i < size - 1; i++)
-        lstack->node_list[i].next = lstack->node_list + i + 1;
-    lstack->node_list[size - 1].next = NULL;
+    for (size_t i = 0; i < max_size - 1; i++)
+        lstack->node_buffer[i].next = lstack->node_buffer + i + 1;
+    lstack->node_buffer[max_size - 1].next = NULL;
     lstack->free.aba = ATOMIC_VAR_INIT(0);
-    lstack->free.node = ATOMIC_VAR_INIT(lstack->node_list);
+    lstack->free.node = ATOMIC_VAR_INIT(lstack->node_buffer);
     return 0;
 }
 
