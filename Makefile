@@ -1,5 +1,4 @@
-CC      = /usr/lib/gcc-snapshot/bin/gcc
-CFLAGS  = -std=c11 -Wall -O3 -I/usr/include
+CFLAGS  = -std=c11 -Wall -O3 -mcx16
 LDFLAGS = -pthread
 
 main : main.o lstack.o sha1.o
