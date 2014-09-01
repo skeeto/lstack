@@ -58,18 +58,18 @@ void *worker(void *arg)
 
 int main()
 {
+    int nthreads = sysconf(_SC_NPROCESSORS_ONLN); // Linux
     lstack_t results;
-    lstack_init(&results);
     struct job job = {
         .results = &results,
         .min_results = 4096,
         .nzeros = 2
     };
+    lstack_init(&results, job.min_results + nthreads);
 
     /* Spawn threads. */
-    int nthreads = sysconf(_SC_NPROCESSORS_ONLN); // Linux
     pthread_t threads[nthreads];
-    printf("Using %d threads.\n", nthreads);
+    printf("Using %d thread%s.\n", nthreads, nthreads == 1 ? "" : "s");
     for (int i = 0; i < nthreads; i++)
         pthread_create(threads + i, NULL, worker, &job);
 
@@ -77,13 +77,14 @@ int main()
     size_t nresults, last = -1;
     while ((nresults = lstack_size(&results)) < job.min_results) {
         if (nresults != last)
-            fprintf(stderr, "\033[FFound %zd hashes ...\n", nresults);
+            fprintf(stderr, "\033[0GFound %zd hashes ...", nresults);
         last = nresults;
         sleep(1);
     }
     for (int i = 0; i < nthreads; i++)
         pthread_join(threads[i], NULL);
     nresults = lstack_size(&results);
+    fprintf(stderr, "\033[0G\033[KFound %zd hashes.\n", nresults);
 
     /* Print results */
     unsigned char *content;
@@ -91,6 +92,5 @@ int main()
         print_hash(content);
         free(content);
     }
-    fprintf(stderr, "Got %zd hashes\n", nresults);
     return 0;
 }
