@@ -28,7 +28,7 @@ static struct lstack_node *pop(_Atomic struct lstack_head *head)
             return NULL;
         next.aba = orig.aba + 1;
         next.node = orig.node->next;
-    } while(!atomic_compare_exchange_weak(head, &orig, next));
+    } while (!atomic_compare_exchange_weak(head, &orig, next));
     return orig.node;
 }
 
@@ -39,7 +39,7 @@ static void push(_Atomic struct lstack_head *head, struct lstack_node *node)
         node->next = orig.node;
         next.aba = orig.aba + 1;
         next.node = node;
-    } while(!atomic_compare_exchange_weak(head, &orig, next));
+    } while (!atomic_compare_exchange_weak(head, &orig, next));
 }
 
 int lstack_push(lstack_t *lstack, void *value)
