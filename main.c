@@ -11,6 +11,8 @@ struct job {
     size_t min_results, nzeros;
 };
 
+extern size_t lstack_size(lstack_t *lstack);
+
 const char EMPTY[SHA1_DIGEST_SIZE] = {0};
 
 void print_hash(unsigned char hash[SHA1_DIGEST_SIZE])

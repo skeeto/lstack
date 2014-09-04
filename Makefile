@@ -1,5 +1,7 @@
-CFLAGS  = -std=c11 -Wall -O3 -mcx16
+CFLAGS  = -std=c11 -Wall -O0 -mcx16
 LDFLAGS = -pthread
+
+all : main
 
 main : main.o lstack.o sha1.o
 
