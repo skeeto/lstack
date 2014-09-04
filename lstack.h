@@ -21,12 +21,12 @@ typedef struct {
     _Atomic size_t size;
 } lstack_t;
 
-inline size_t lstack_size(lstack_t *lstack)
+static inline size_t lstack_size(lstack_t *lstack)
 {
     return atomic_load(&lstack->size);
 }
 
-inline void lstack_free(lstack_t *lstack)
+static inline void lstack_free(lstack_t *lstack)
 {
     free(lstack->node_buffer);
 }
