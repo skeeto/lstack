@@ -1,0 +1,11 @@
+{
+	"name": "lstack",
+	"description": "A C11 Lock-free Stack",
+	"version": "1.0.0",
+	"src": [
+		"lstack.h",
+		"lstack.c"
+	],
+	"license": "Unlicense",
+	"repo": "skeeto/lstack"
+}
