@@ -4,8 +4,8 @@
 
 int lstack_init(lstack_t *lstack, size_t max_size)
 {
-    lstack->head.aba = ATOMIC_VAR_INIT(0);
-    lstack->head.node = ATOMIC_VAR_INIT(NULL);
+    struct lstack_head head_init = {0, NULL};
+    lstack->head = ATOMIC_VAR_INIT(head_init);
     lstack->size = ATOMIC_VAR_INIT(0);
 
     /* Pre-allocate all nodes. */
@@ -15,8 +15,8 @@ int lstack_init(lstack_t *lstack, size_t max_size)
     for (size_t i = 0; i < max_size - 1; i++)
         lstack->node_buffer[i].next = lstack->node_buffer + i + 1;
     lstack->node_buffer[max_size - 1].next = NULL;
-    lstack->free.aba = ATOMIC_VAR_INIT(0);
-    lstack->free.node = ATOMIC_VAR_INIT(lstack->node_buffer);
+    struct lstack_head free_init = {0, lstack->node_buffer};
+    lstack->free = ATOMIC_VAR_INIT(free_init);
     return 0;
 }
 
