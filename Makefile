@@ -1,16 +1,19 @@
-CFLAGS  = -std=c11 -Wall -O3 -mcx16
+.POSIX:
+CC      = cc
+CFLAGS  = -std=c11 -Wall -Wextra -O3 -mcx16
 LDFLAGS = -pthread
 
-main : main.o lstack.o sha1.o
+objects = main.o lstack.o sha1.o
 
-main.o : main.c lstack.h sha1.h
-lstack.o : lstack.c lstack.h
-sha1.o : sha1.c
+main: $(objects)
+	$(CC) $(CFLAGS) $(LDFLAGS) -o $@ $(objects) $(LDLIBS)
 
-.PHONY : run clean
+main.o: main.c lstack.h sha1.h
+lstack.o: lstack.c lstack.h
+sha1.o: sha1.c
 
-run : main
-	./$^
+run: main
+	./main
 
-clean :
-	$(RM) main *.o
+clean:
+	rm -f main $(objects)
