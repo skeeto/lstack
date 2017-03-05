@@ -23,7 +23,7 @@ void print_hash(unsigned char hash[SHA1_DIGEST_SIZE])
 void fillrandom(unsigned char *buffer, size_t n)
 {
     FILE *urandom = fopen("/dev/urandom", "r");
-    if (urandom == NULL || fread(buffer, sizeof(buffer), 1, urandom) != 1)
+    if (urandom == NULL || !fread(buffer, n, 1, urandom))
         abort();
     fclose(urandom);
 }
