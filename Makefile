@@ -1,5 +1,5 @@
 .POSIX:
-CC      = cc
+CC      = clang
 CFLAGS  = -std=c11 -Wall -Wextra -O3 -mcx16
 LDFLAGS = -pthread
 
